@@ -69,13 +69,6 @@ echo "🚨 Fail2Ban activeren..."
 systemctl enable fail2ban
 systemctl start fail2ban
 
-echo "🛡️ UFW configureren..."
-sed -i 's/^DEFAULT_FORWARD_POLICY=.*/DEFAULT_FORWARD_POLICY="ACCEPT"/' /etc/default/ufw
-ufw allow OpenSSH
-ufw allow 80
-ufw allow 443
-ufw enable
-
 echo "🐚 screenfetch instellen voor login van alle gebruikers..."
 echo '
 # screenfetch bij interactieve shell
