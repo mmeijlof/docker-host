@@ -5,3 +5,4 @@ sudo curl -sL https://raw.githubusercontent.com/mmeijlof/docker-host/main/first.
 or as root
 curl -sL https://raw.githubusercontent.com/mmeijlof/docker-host/main/first.sh | bash
 
+chmod +x setup_backup.sh
