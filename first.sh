@@ -36,15 +36,29 @@ echo "📦 Docker installeren..."
 apt update
 apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-echo "👤 Gebruiker controleren..."
 if id "mark" &>/dev/null; then
   echo "👤 Gebruiker 'mark' bestaat al — overslaan..."
 else
-  echo "👤 Gebruiker 'mark' aanmaken..."
+  echo "👤 Gebruiker 'mark' wordt aangemaakt..."
+  
+  # Wachtwoord vragen zonder echo
+  read -s -p "Voer een wachtwoord in voor gebruiker mark: " MARK_PASS
+  echo
+  read -s -p "Herhaal het wachtwoord: " MARK_PASS_CONFIRM
+  echo
+
+  # Vergelijk beide invoeren
+  if [ "$MARK_PASS" != "$MARK_PASS_CONFIRM" ]; then
+    echo "❌ Wachtwoorden komen niet overeen. Script afgebroken."
+    exit 1
+  fi
+
+  # Gebruiker aanmaken
   useradd -m -s /bin/bash mark
-  echo "mark:docker12" | chpasswd
+  echo "mark:$MARK_PASS" | chpasswd
   usermod -aG sudo mark
   usermod -aG docker mark
+  echo "✅ Gebruiker 'mark' is aangemaakt."
 fi
 
 echo "📁 /opt/stacks map aanmaken..."
