@@ -90,4 +90,22 @@ echo "✅ Lazydocker is geïnstalleerd en beschikbaar als 'lazydocker'"
 echo "🚀 Docker automatisch laten starten..."
 systemctl enable docker
 
+echo "🔐 WireGuard installeren..."
+apt install -y wireguard
+
+echo "📂 WireGuard map aanmaken..."
+mkdir -p /etc/wireguard
+chmod 700 /etc/wireguard
+
+echo "⚙️ WireGuard sysctl instellingen toepassen..."
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+echo "net.ipv6.conf.all.forwarding=1" >> /etc/sysctl.conf
+sysctl -p
+
+# Optioneel: service automatisch starten (zonder configuratie faalt dit, tenzij je al een .conf maakt)
+echo "⏱️ WireGuard automatisch starten bij boot (wanneer config bestaat)..."
+systemctl enable wg-quick@wg0 || echo "⚠️ Geen configuratie gevonden voor wg0. Starten zal pas werken na configuratie."
+
+echo "ℹ️ WireGuard is geïnstalleerd. Voeg je configuratie toe in /etc/wireguard/wg0.conf"
+
 echo "✅ Voltooid: Docker-server en beveiliging ingesteld."
